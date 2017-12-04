@@ -1,0 +1,32 @@
+buildscript {
+    apply from: '.mdk/buildscript.gradle', to: buildscript
+}
+
+apply from: '.mdk/project.gradle'
+apply plugin: 'java'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+test {
+    systemProperty "file.encoding", "utf-8"
+}
+litemod {
+    json {
+        name = project.name
+        displayName = project.displayName
+        description = project.moddescription
+        author = "AlexHalogen"
+        mcversion=project.mcVersion
+    }
+}
+
+jar {
+    from litemod.outputs
+
+    manifest.mainAttributes (
+        'Built-By': System.properties['user.name'],
+        'Created-By': System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+        'Implementation-Title': project.name,
+        'Implementation-Version': project.mcVersion
+    )
+}

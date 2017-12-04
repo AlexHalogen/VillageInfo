@@ -1,0 +1,8 @@
+################################################################
+# Language file for the VillageInfo mod by AlexHalogen.    #
+# Language: en_US (American English)                           #
+################################################################
+
+villageinfo.configpanel.title=%s Village Info Settings
+villageinfo.configpanel.button.toggle=Toggle VillageInfo HUD Display: 
+villageinfo.controls.toggle=Toggle VillageInfo HUD
