@@ -6,33 +6,33 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.TextFormatting;
 import java.util.List;
 import java.util.ArrayList;
-
 import java.util.Collections;
 
 import net.minecraft.nbt.NBTTagCompound;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.village.*;
 
 
-// import net.minecraft.client.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 public class VillageInfoRenderer {
-	public boolean enabledF3 = false;
-	public boolean enabled = true;
+	private Minecraft mc;
+	private MinecraftServer integratedServer;
+	private EntityPlayer player;
+
+	VillageInfoRenderer(Minecraft minecraft, MinecraftServer mcserver, EntityPlayer p) {
+		this.mc = minecraft;
+		this.integratedServer = mcserver;
+		this.player = p;
+	}
 
 	public void render(int screenwidth, int screenheight) {
-		if (!enabledF3 || !enabled) return;
-
-		Minecraft mc = Minecraft.getMinecraft();
-		EntityPlayer player = mc.player;
 		
 		if (player == null) return;
-	
-		Village villageIn = mc.getIntegratedServer()
-				.getWorld(mc.player.dimension)
+		
+		if (integratedServer == null) return;
+		Village villageIn = integratedServer.getWorld(player.dimension)
 				.getVillageCollection().getNearestVillage(
 					new BlockPos(player), 80);
 
@@ -88,7 +88,6 @@ public class VillageInfoRenderer {
 			enoughDoors = false;
 		else
 			enoughDoors = true;
-
 
 		List<String> outputStr = new ArrayList();
 		GlStateManager.enableBlend();
