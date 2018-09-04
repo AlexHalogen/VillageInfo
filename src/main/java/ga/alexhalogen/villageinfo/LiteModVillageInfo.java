@@ -43,6 +43,7 @@ public class LiteModVillageInfo implements ServerCommandProvider, HUDRenderListe
 
     private boolean isSinglePlayer = false;
     private boolean isF3Enabled = false;
+    private boolean isBlocking = false;
 
     public static KeyBinding toggleVillageinfo;
     private VillageInfoRenderer renderer;
@@ -76,6 +77,7 @@ public class LiteModVillageInfo implements ServerCommandProvider, HUDRenderListe
         if (toggleVillageinfo.isPressed()) {
             this.isF3Enabled = !this.isF3Enabled;
         }
+         isBlocking = !(inGame && minecraft.currentScreen == null && Minecraft.isGuiEnabled());
     }
 
     @Override
@@ -90,7 +92,7 @@ public class LiteModVillageInfo implements ServerCommandProvider, HUDRenderListe
 
     @Override
     public void onPostRenderHUD(int screenWidth, int screenHeight) {
-        if (isEnabled && isSinglePlayer && isF3Enabled && (renderer != null)) {
+        if (isEnabled && isSinglePlayer && isF3Enabled && (renderer != null) && !isBlocking) {
             renderer.render(screenWidth, screenHeight);
         }
     }
@@ -144,6 +146,7 @@ public class LiteModVillageInfo implements ServerCommandProvider, HUDRenderListe
 
     public void setStatus(boolean status) {
         this.isEnabled = status;
+        LiteLoader.getInstance().writeConfig(this);
     }
 
 }
